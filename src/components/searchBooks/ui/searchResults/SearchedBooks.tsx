@@ -1,0 +1,42 @@
+import type { RefObject } from "react";
+import type { KakaoBookDocument } from "../../types/searchBooks";
+import BookCard from "./BookCard";
+import NoSearchedBooks from "./NoSearchedBooks";
+
+interface Props {
+  books: KakaoBookDocument[];
+  sentinelRef: RefObject<HTMLDivElement | null>;
+  hasNextPage: boolean;
+  isFetching: boolean;
+}
+
+function SearchedBooks({
+  books,
+  sentinelRef,
+  hasNextPage,
+  isFetching,
+}: Props) {
+  if (books.length > 0) {
+    return (
+      <>
+        <ul className="mt-12">
+          {books.map((book: KakaoBookDocument) => (
+            <BookCard key={book.isbn || book.title} book={book} />
+          ))}
+        </ul>
+        {hasNextPage && <div ref={sentinelRef} />}
+        {isFetching && (
+          <p className="text-caption-md py-2">불러오는 중...</p>
+        )}
+      </>
+    );
+  }
+
+  if (isFetching) {
+    return <p className="text-caption-md py-2">불러오는 중...</p>;
+  }
+
+  return <NoSearchedBooks />;
+}
+
+export default SearchedBooks;

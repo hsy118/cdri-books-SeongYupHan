@@ -14,14 +14,17 @@ interface Props extends Omit<React.ComponentProps<"button">, "size" | "color"> {
   variant?: RectangleButtonVariant;
   size?: RectangleButtonSize;
   color?: RectangleButtonColor;
+  fixedWidth?: number;
 }
 
 function RectangleButton({
   variant = "default",
   size = "medium",
   color,
+  fixedWidth,
   className,
   children,
+  style,
   ...props
 }: Props) {
   return (
@@ -31,8 +34,10 @@ function RectangleButton({
         sizeStyles[size],
         variantStyles[variant],
         color && colorStyles[color],
+        fixedWidth && "px-0",
         className,
       )}
+      style={fixedWidth ? { width: fixedWidth, ...style } : style}
       {...props}
     >
       {children}

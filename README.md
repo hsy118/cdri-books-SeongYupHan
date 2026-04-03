@@ -34,6 +34,14 @@
 - `@tanstack/react-query` — 서버 상태 관리 및 데이터 캐싱
 - `@tanstack/react-query-devtools` — React Query 디버깅용 개발자 도구
 
+
+## 강조하고 싶은 기능
+
+### 검색 기록 — `useSyncExternalStore` 기반 외부 저장소 동기화
+
+검색 기록을 `localStorage`에 저장하되, React 상태와 자동으로 동기화되도록 `useSyncExternalStore`를 활용했습니다.
+별도의 전역 상태 라이브러리 없이도 **구독(subscribe) → 변경 알림(emit) → 스냅샷 읽기(getSnapshot; getLocalHistory)** 패턴으로 외부 저장소와 React 렌더링을 일관되게 연결합니다.
+
 ## 스크립트
 
 ```bash

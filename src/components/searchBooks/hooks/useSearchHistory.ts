@@ -14,13 +14,14 @@ function useSearchHistory() {
     if (!trimmed) return;
 
     const prev = getLocalHistory();
-    const next = [...prev, trimmed].slice(-MAX_HISTORY);
+    const item = { id: crypto.randomUUID(), keyword: trimmed };
+    const next = [...prev, item].slice(-MAX_HISTORY);
     setLocalHistory(next);
   };
 
-  const removeHistory = (keyword: string) => {
+  const removeHistory = (id: string) => {
     const prev = getLocalHistory();
-    setLocalHistory(prev.filter((item) => item !== keyword));
+    setLocalHistory(prev.filter((item) => item.id !== id));
   };
 
   return { history, addHistory, removeHistory } as const;

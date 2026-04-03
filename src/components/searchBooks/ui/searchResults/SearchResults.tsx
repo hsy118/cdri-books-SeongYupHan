@@ -1,13 +1,48 @@
-function SearchResults() {
+import { useEffect, useRef } from "react";
+import { useSearchBooksQuery } from "../../queries/useSearchBooksQuery";
+import type { KakaoBookSearchResponse } from "../../types/searchBooks";
+import SearchedBooks from "./SearchedBooks";
+import SearchResultHeader from "./SearchResultHeader";
+
+interface Props {
+  keyword: string;
+}
+
+function SearchResults({ keyword }: Props) {
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useSearchBooksQuery(keyword);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const totalCount = data?.pages[0].meta.total_count ?? 0;
+  const allDocuments = data?.pages.flatMap((page: KakaoBookSearchResponse) => page.documents) ?? [];
+  const isFetching = isLoading || isFetchingNextPage;
+
   return (
     <section className="mt-7">
-      <header className="flex items-center gap-4 h-6 text-caption-md">
-        <h2>도서 검색 결과</h2>
-        <p>
-          총 <span className="text-primary">12</span>건
-        </p>
-      </header>
-      <ul>{/* 검색 결과 리스트 */}</ul>
+      <SearchResultHeader totalCount={totalCount} />
+      <SearchedBooks
+        books={allDocuments}
+        sentinelRef={sentinelRef}
+        hasNextPage={hasNextPage}
+        isFetching={isFetching}
+      />
     </section>
   );
 }

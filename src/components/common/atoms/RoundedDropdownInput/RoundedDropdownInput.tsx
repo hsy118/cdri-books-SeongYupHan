@@ -3,11 +3,16 @@ import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-interface RoundedDropdownInputProps
+interface HistoryItem {
+  id: string;
+  keyword: string;
+}
+
+interface Props
   extends Omit<React.ComponentProps<typeof Input>, "type"> {
   showSearchIcon?: boolean;
-  history?: string[];
-  onRemoveHistory?: (keyword: string) => void;
+  history?: HistoryItem[];
+  onRemoveHistory?: (id: string) => void;
   onSelectHistory?: (keyword: string) => void;
 }
 
@@ -17,8 +22,10 @@ function RoundedDropdownInput({
   onRemoveHistory,
   onSelectHistory,
   className,
+  onKeyDown,
+  onChange,
   ...props
-}: RoundedDropdownInputProps) {
+}: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +35,16 @@ function RoundedDropdownInput({
   const handleBlur = (e: React.FocusEvent) => {
     if (containerRef.current?.contains(e.relatedTarget as Node)) return;
     setIsFocused(false);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") setIsFocused(true);
+    onChange?.(e);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") setIsFocused(false);
+    onKeyDown?.(e);
   };
 
   const handleSelect = (keyword: string) => {
@@ -53,26 +70,33 @@ function RoundedDropdownInput({
           className,
         )}
         onFocus={() => setIsFocused(true)}
+        onClick={() => setIsFocused(true)}
         {...props}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       {showDropdown && (
         <ul className="absolute left-0 right-0 bg-gray-light rounded-b-[25px] pb-[10px] z-10">
-          {history.map((keyword) => (
-            <li key={keyword}>
-              <button
-                type="button"
-                className="flex w-full items-center justify-between px-[41px] py-[6px] text-caption-md text-black hover:bg-gray/10 cursor-pointer"
-                onClick={() => handleSelect(keyword)}
+          {[...history].reverse().map((item) => (
+            <li key={item.id}>
+              <div
+                tabIndex={-1}
+                className="flex w-full items-center justify-between px-[41px] py-[6px] text-caption-md md:text-sm text-fg-subtitle outline-none"
               >
-                <span className="truncate">{keyword}</span>
+                <span
+                  className="truncate cursor-pointer"
+                  onClick={() => handleSelect(item.keyword)}
+                >
+                  {item.keyword}
+                </span>
                 <X
-                  className="shrink-0 size-[16px] text-black"
+                  className="shrink-0 size-[16px] text-black cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onRemoveHistory?.(keyword);
+                    onRemoveHistory?.(item.id);
                   }}
                 />
-              </button>
+              </div>
             </li>
           ))}
         </ul>
