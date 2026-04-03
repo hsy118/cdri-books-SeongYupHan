@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@import "./styles/colors.css";
+@import "./styles/fonts.css";
+
+:root {
+  --sans: "Noto Sans KR", sans-serif;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: var(--sans);
+}

@@ -1,0 +1,13 @@
+@theme {
+  /* 색 팔레트 */
+  --color-primary: #4880ee;
+  --color-red: #e84118;
+  --color-gray: #dadada;
+  --color-gray-light: #f2f4f6;
+  --color-white: #ffffff;
+  --color-black: #222222;
+  /* 타이포그래피 */
+  --color-fg-primary: #353c49;
+  --color-fg-secondary: #6d7582;
+  --color-fg-subtitle: #8d94a0;
+}

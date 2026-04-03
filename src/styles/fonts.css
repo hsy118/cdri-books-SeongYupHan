@@ -1,0 +1,54 @@
+@layer components {
+  /* 가장 큰 타이틀  */
+  .text-title-lg {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+  .text-title-md {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+  .text-title-sm {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: 0;
+  }
+  /* 본문 텍스트 */
+  .text-body-lg {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 0;
+  }
+  .text-body-md {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 0;
+  }
+  .text-body-md-bold {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 0;
+  }
+  /* 캡션 텍스트 */
+  .text-caption-md {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: 0;
+  }
+  /* 작은 텍스트 */
+  .text-small-md {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 0;
+  }
+}
