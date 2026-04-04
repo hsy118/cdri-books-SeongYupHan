@@ -48,7 +48,7 @@ function SearchDetail({ onSearch }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-3 mt-[24px]">
+    <div className="flex flex-col gap-[16px]">
       <div className="flex items-center gap-[4px]">
         <div
           ref={dropdownRef}
@@ -57,7 +57,7 @@ function SearchDetail({ onSearch }: Props) {
         >
           <button
             type="button"
-            className="flex w-full h-full items-center justify-between text-body-md-bold text-fg-primary cursor-pointer"
+            className="flex h-full w-full cursor-pointer items-center justify-between border-b border-[#D2D6DA] text-body-md-bold text-fg-primary"
             onClick={() => setIsDropdownOpen((prev) => !prev)}
           >
             <span>{selectedLabel}</span>
@@ -65,13 +65,13 @@ function SearchDetail({ onSearch }: Props) {
           </button>
 
           {isDropdownOpen && (
-            <ul className="absolute left-0 top-full z-10 w-full bg-white py-[4px] px-[8px]">
+            <ul className="absolute left-0 top-[calc(100%+6px)] z-10 w-full bg-white shadow-[0px_0px_4px_0px_#00000040]">
               {unselectedOptions.map((opt) => (
                 <li key={opt.value}>
                   <button
                     type="button"
                     tabIndex={0}
-                    className="w-full text-left text-[14px] font-medium leading-[22px] text-[#8D94A0] py-1 cursor-pointer hover:text-fg-primary"
+                    className="box-border flex h-[30px] w-full cursor-pointer items-center px-[8px] py-[4px] text-left text-[14px] font-medium leading-[22px] text-[#8D94A0] hover:text-fg-primary"
                     onClick={() => handleSelect(opt.value)}
                   >
                     {opt.label}

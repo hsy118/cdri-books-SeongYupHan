@@ -55,7 +55,7 @@ function SearchBooks() {
   return (
     <>
       <h1 className="text-title-lg">도서 검색</h1>
-      <div className="flex items-center gap-4 mt-6">
+      <div className="flex items-center gap-4 mt-[17px]">
         <RoundedDropdownInput
           placeholder="검색어 입력"
           className="w-[480px]"
@@ -77,7 +77,7 @@ function SearchBooks() {
           <PopoverContent
             align="center"
             sideOffset={16}
-            className="relative w-[360px] bg-white p-2 shadow-[0px_4px_14px_6px_#97979726] px-[36px] py-[24px]"
+            className="relative w-[360px] bg-white p-0 px-[24px] py-[36px] shadow-[0px_4px_14px_6px_#97979726]"
           >
             <PopoverClose className="absolute top-2 right-2 cursor-pointer">
               <X className="size-[20px] text-gray-400" />

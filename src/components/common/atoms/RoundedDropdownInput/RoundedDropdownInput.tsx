@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { searchFieldTypographyClass } from "@/lib/searchFieldTypography";
 
 interface HistoryItem {
   id: string;
@@ -56,16 +57,18 @@ function RoundedDropdownInput({
     <div ref={containerRef} className="relative" onBlur={handleBlur}>
       {showSearchIcon && (
         <Search
+          size={20}
           className={cn(
-            "absolute left-[10px] top-[15px] size-[20px] text-fg-primary z-10",
+            "pointer-events-none absolute left-[10px] top-1/2 z-10 -translate-y-1/2 text-fg-primary",
           )}
         />
       )}
       <Input
         type="text"
         className={cn(
-          "h-[50px] p-[10px] bg-gray-light border-none text-caption-md text-black placeholder:text-fg-subtitle focus-visible:ring-0",
-          showSearchIcon && "pl-[41px]",
+          "h-[50px] border-none bg-gray-light p-[10px] text-black placeholder:text-fg-subtitle focus-visible:ring-0",
+          searchFieldTypographyClass,
+          showSearchIcon && "pl-[46px]",
           showDropdown ? "rounded-t-[25px] rounded-b-none" : "rounded-full",
           className,
         )}
@@ -76,12 +79,12 @@ function RoundedDropdownInput({
         onKeyDown={handleKeyDown}
       />
       {showDropdown && (
-        <ul className="absolute left-0 right-0 bg-gray-light rounded-b-[25px] pb-[10px] z-10">
+        <ul className="absolute left-0 right-0 z-10 rounded-b-[25px] bg-gray-light pb-[10px]">
           {[...history].reverse().map((item) => (
             <li key={item.id}>
               <div
                 tabIndex={-1}
-                className="flex w-full items-center justify-between px-[41px] py-[6px] text-caption-md md:text-sm text-fg-subtitle outline-none"
+                className="flex w-full items-center justify-between pl-[46px] pr-[41px] py-[6px] text-caption-md md:text-sm text-fg-subtitle outline-none"
               >
                 <span
                   className="truncate cursor-pointer"
@@ -90,7 +93,8 @@ function RoundedDropdownInput({
                   {item.keyword}
                 </span>
                 <X
-                  className="shrink-0 size-[16px] text-black cursor-pointer"
+                  size={16}
+                  className="shrink-0  text-black cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
                     onRemoveHistory?.(item.id);

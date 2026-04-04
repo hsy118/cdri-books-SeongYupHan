@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useSearchPageTopSpacing } from "@/components/common/searchPageTopSpacingContext";
 import { useSearchBooksQuery } from "../../queries/useSearchBooksQuery";
 import type {
   BookSearchParams,
@@ -13,9 +14,25 @@ interface Props {
 }
 
 function SearchResults({ keyword, target }: Props) {
+  const { setCompactSearchTop } = useSearchPageTopSpacing();
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSearchBooksQuery(keyword, target);
   const sentinelRef = useRef<HTMLDivElement>(null);
+
+  const totalCount = data?.pages[0].meta.total_count ?? 0;
+
+  useEffect(() => {
+    const trimmed = keyword.trim();
+    if (!trimmed) {
+      setCompactSearchTop(false);
+      return;
+    }
+    if (isLoading) {
+      setCompactSearchTop(false);
+      return;
+    }
+    setCompactSearchTop(totalCount > 0);
+  }, [keyword, isLoading, totalCount, setCompactSearchTop]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -34,7 +51,6 @@ function SearchResults({ keyword, target }: Props) {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const totalCount = data?.pages[0].meta.total_count ?? 0;
   const allDocuments =
     data?.pages.flatMap((page: KakaoBookSearchResponse) => page.documents) ??
     [];

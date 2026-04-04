@@ -1,4 +1,4 @@
-import BookCard from "@/components/shared/ui/BookCard";
+import BookCard from "@/components/shared/ui/bookCard";
 import EmptyResult from "@/components/shared/ui/EmptyResult";
 import useFavorites from "./hooks/useFavorites";
 
@@ -9,14 +9,14 @@ function MyFavorites() {
     <>
       <h1 className="text-title-lg">내가 찜한 책</h1>
       <section className="mt-7">
-        <header className="flex items-center gap-4 h-6 text-caption-md mb-[117px]">
+        <header className="flex h-6 items-center gap-4 text-caption-md mb-[36px]">
           <h2>찜한 책</h2>
           <p>
             총 <span className="text-primary">{favorites.length}</span>건
           </p>
         </header>
         {favorites.length > 0 ? (
-          <ul className="mt-12">
+          <ul>
             {favorites.map((book) => (
               <BookCard key={book.isbn || book.title} book={book} />
             ))}

@@ -1,52 +1,71 @@
 # CDRI Books
 
-## 과제 진행 일시
+카카오 도서 검색 API를 기반으로 책을 검색하고, 검색 기록과 찜 목록을 함께 관리할 수 있는 React 애플리케이션입니다.  
+검색 화면과 찜 화면을 분리하고, 공용 카드 UI와 통합 `테스트`를 통해 주요 사용자 흐름이 안정적으로 동작하도록 구성했습니다.
 
-- 2026년 4월 3일 ~ 2026년 4월 5일
+## 프로젝트 개요
 
-## 기술 스택
+- 도서 검색과 상세 검색을 통해 원하는 책을 찾을 수 있습니다.
+- 검색 기록을 브라우저에 저장해 다시 빠르게 조회할 수 있습니다.
+- 검색 결과에서 책을 찜하고, 별도 화면에서 모아볼 수 있습니다.
+- 잘못된 경로로 접근하면 기본 검색 화면으로 리다이렉트됩니다.
 
-### 핵심
+## 프로젝트 진행 일시
+- 2026-04-04 ~ 2026-04-06
 
-- `react` — UI 렌더링 프레임워크
-- `react-dom` — React DOM 바인딩
-- `typescript` — 정적 타입 검사로 코드 안정성 확보
-- `vite` — 빠른 개발 서버 및 빌드 도구
 
-### 스타일링
+## 주요 기능
 
-- `tailwindcss` — 유틸리티 기반 CSS 프레임워크
-- `@tailwindcss/vite` — Vite 환경에서 Tailwind v4 통합 플러그인
-- `tw-animate-css` — Tailwind용 애니메이션 유틸리티 (shadcn 의존)
+- `도서 검색` : 키워드 기반으로 도서를 조회합니다.
+- `상세 검색` : 제목, 저자 등 검색 대상을 나누어 조회합니다.
+- `검색 기록 저장` : 최근 검색어를 `localStorage`에 저장하고 다시 선택할 수 있습니다.
+- `찜 기능` : 검색 결과에서 책을 찜하고 즐겨찾기 화면에서 관리할 수 있습니다.
+- `라우팅 처리` : 검색 화면과 찜 화면을 분리하고 잘못된 경로를 보정합니다.
 
-### UI 컴포넌트
+## 실행 방법 및 환경 설정
 
-- `shadcn` — UI 컴포넌트 CLI, 필요한 컴포넌트를 프로젝트에 직접 추가
-- `@base-ui/react` — shadcn 내부 헤드리스 컴포넌트 (접근성, 키보드 내비게이션 등)
-- `lucide-react` — 아이콘 라이브러리 (shadcn 기본 아이콘)
-- `class-variance-authority` — 컴포넌트 variant 스타일 관리 (size, color 등 조합)
-- `clsx` — 조건부 클래스 이름 결합 유틸리티
-- `tailwind-merge` — Tailwind 클래스 충돌 시 후순위 클래스 우선 적용
+패키지 매니저는 `yarn`을 사용합니다.
 
-### 데이터 페칭
+```bash
+yarn install
+```
 
-- `axios` — HTTP 클라이언트 (보안 이슈로 1.14.0 버전 고정)
-- `@tanstack/react-query` — 서버 상태 관리 및 데이터 캐싱
-- `@tanstack/react-query-devtools` — React Query 디버깅용 개발자 도구
+`.env` 파일에 아래 환경 변수가 필요합니다.
 
+```bash
+VITE_REST_API_KEY=YOUR_KAKAO_REST_API_KEY
+```
+
+주요 실행 명령어:
+
+```bash
+yarn dev
+yarn build
+yarn lint
+yarn test
+yarn test:watch
+```
+
+## 폴더 구조 및 주요 코드 설명
+
+- `src/components/searchBooks` : 검색 화면, 상세 검색, 검색 결과 렌더링을 담당합니다.
+- `src/components/myfavorites` : 찜한 책 목록 조회와 해제를 담당합니다.
+- `src/components/shared` : 최소 두 곳 이상의 화면이나 기능에서 함께 사용하는 UI와 타입을 둡니다. 예를 들어 `src/components/shared/ui/bookCard`는 검색 결과와 찜 목록에서 함께 사용하는 도서 카드 UI입니다.
+- `src/components/common` : 확장성을 고려했을 때 앱 전반에서 재사용할 수 있는 공통 요소를 둡니다. `atoms`, `molecules`에는 버튼, 입력창, 다이얼로그처럼 UI 관련 공통 컴포넌트를 두고, 그 외 `hooks`, `utils`, `types`, `constant`는 공통 로직과 설정을 관리합니다.
+- `src/routes` : 라우팅과 기본 경로 리다이렉트를 관리합니다.
+- `src/lib` : 특정 도메인에 강하게 묶이지 않는 보조 유틸리티나 스타일 계산 로직을 둡니다.
+- `src/test` : 통합 테스트 유틸, MSW 핸들러, 테스트 환경 설정을 포함합니다.
+
+## 라이브러리 선택 이유
+
+- `react-router-dom` : 검색 화면과 찜 화면을 명확하게 분리하고, 잘못된 경로 접근도 단순하게 처리하기 위해 사용했습니다.
+- `@tanstack/react-query` : 검색 결과의 로딩, 에러, 성공 상태를 서버 상태로 관리하고 캐시 전략을 적용하기 위해 사용했습니다.
+- `axios` : 카카오 도서 검색 API 요청을 공통 인스턴스로 관리해 헤더와 기본 URL 구성을 일관되게 유지하기 위해 사용했고, 최근에 발생한 보안 이슈를 반영해 `1.14.0` 버전을 선택했습니다.
+- `shadcn` : 필요한 UI만 선택적으로 가져와 프로젝트 구조와 스타일 기준에 맞게 직접 관리하기 위해 사용했습니다.
+- `tailwindcss` : 과제 범위에서 빠르게 UI를 구현하면서도 컴포넌트 가까이에서 스타일을 관리하기 위해 사용했습니다.
+- `vitest`, `React Testing Library`, `MSW` : 사용자 흐름 중심으로 검색, 라우팅, 찜 기능을 검증하고 외부 API 의존 없이 테스트하기 위해 사용했습니다.
 
 ## 강조하고 싶은 기능
 
-### 검색 기록 — `useSyncExternalStore` 기반 외부 저장소 동기화
-
-검색 기록을 `localStorage`에 저장하되, React 상태와 자동으로 동기화되도록 `useSyncExternalStore`를 활용했습니다.
-별도의 전역 상태 라이브러리 없이도 **구독(subscribe) → 변경 알림(emit) → 스냅샷 읽기(getSnapshot; getLocalHistory)** 패턴으로 외부 저장소와 React 렌더링을 일관되게 연결합니다.
-
-## 스크립트
-
-```bash
-yarn dev       # 개발 서버 실행
-yarn build     # 프로덕션 빌드
-yarn lint      # ESLint 검사
-yarn preview   # 빌드 결과 미리보기
-```
+검색 기록은 `useSyncExternalStore`를 활용해 `localStorage`와 React UI를 일관되게 동기화하도록 구현했습니다.  
+별도 전역 상태 라이브러리 없이도 `subscribe`, `emitChange`, `getLocalHistory` 흐름으로 외부 저장소 변경을 구독하고, 같은 원본 데이터는 캐시된 스냅샷을 재사용해 불필요한 참조 변경을 줄였습니다.
