@@ -1,3 +1,7 @@
+import type { KakaoBookDocument } from "@/components/shared/types/book";
+
+export type { KakaoBookDocument };
+
 export interface BookSearchParams {
   query: string;
   sort?: "accuracy" | "latest";
@@ -10,21 +14,6 @@ export interface KakaoBookMeta {
   total_count: number;
   pageable_count: number;
   is_end: boolean;
-}
-
-export interface KakaoBookDocument {
-  title: string;
-  contents: string;
-  url: string;
-  isbn: string;
-  datetime: string;
-  authors: string[];
-  publisher: string;
-  translators: string[];
-  price: number;
-  sale_price: number;
-  thumbnail: string;
-  status: string;
 }
 
 export interface KakaoBookSearchResponse {

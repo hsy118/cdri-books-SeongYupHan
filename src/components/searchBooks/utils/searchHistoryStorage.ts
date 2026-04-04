@@ -48,12 +48,3 @@ export function subscribe(listener: () => void) {
     listeners = listeners.filter((l) => l !== listener);
   };
 }
-
-/**
- * 가격을 원화 형식으로 변환하는 함수
- * @param price - 가격
- * @returns 원화 형식
- */
-export function formatPrice(price: number) {
-  return price.toLocaleString("ko-KR");
-}

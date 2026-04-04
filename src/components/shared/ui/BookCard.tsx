@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import type { KakaoBookDocument } from "../../types/searchBooks";
+import type { KakaoBookDocument } from "@/components/shared/types/book";
 import RectangleButton from "@/components/common/atoms/rectangleButton/RectangleButton";
-import { formatPrice } from "../../utils/searchHistoryStorage";
+import { formatPrice } from "@/components/common/utils/format";
+import useFavorites from "@/components/myfavorites/hooks/useFavorites";
+import iconHeartLine from "@/assets/icons/icon-heart-line.svg";
+import iconHeartFill from "@/assets/icons/icon-heart-fill.svg";
 
 interface Props {
   book: KakaoBookDocument;
@@ -10,12 +13,18 @@ interface Props {
 
 function BookCard({ book }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { toggleFavorite, checkIsFavorite } = useFavorites();
 
+  const isLiked = checkIsFavorite(book);
   const hasSalePrice = book.sale_price > 0 && book.sale_price !== book.price;
   const displayPrice = book.sale_price > 0 ? book.sale_price : book.price;
 
   const handlePurchase = () => {
     window.open(book.url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleToggleLike = () => {
+    toggleFavorite(book);
   };
 
   return (
@@ -29,11 +38,25 @@ function BookCard({ book }: Props) {
           <div className="flex items-center justify-between h-[100px] px-4 py-4">
             <div className="flex items-center gap-4 min-w-0">
               {book.thumbnail && (
-                <img
-                  src={book.thumbnail}
-                  alt={book.title}
-                  className="w-[48px] h-[68px] object-cover rounded shrink-0"
-                />
+                <div className="relative w-[48px] h-[68px] shrink-0">
+                  <img
+                    src={book.thumbnail}
+                    alt={book.title}
+                    className="w-full h-full object-cover rounded"
+                  />
+                  <button
+                    type="button"
+                    className="absolute cursor-pointer"
+                    style={{ top: 1.77, right: 1.33, width: 13.33, height: 12.23 }}
+                    onClick={handleToggleLike}
+                  >
+                    <img
+                      src={isLiked ? iconHeartFill : iconHeartLine}
+                      alt="찜하기"
+                      className="w-full h-full"
+                    />
+                  </button>
+                </div>
               )}
               <div className="min-w-0 line-clamp-2">
                 <span className="text-title-sm text-fg-primary">
@@ -80,11 +103,25 @@ function BookCard({ book }: Props) {
         <div className="overflow-hidden">
           <div className="flex gap-6 px-4 pt-4 pb-6">
             {book.thumbnail && (
-              <img
-                src={book.thumbnail}
-                alt={book.title}
-                className="w-[210px] h-[280px] object-cover rounded shrink-0"
-              />
+              <div className="relative w-[210px] h-[280px] shrink-0">
+                <img
+                  src={book.thumbnail}
+                  alt={book.title}
+                  className="w-full h-full object-cover rounded"
+                />
+                <button
+                  type="button"
+                  className="absolute cursor-pointer"
+                  style={{ top: 12, right: 10, width: 20, height: 17.16 }}
+                  onClick={handleToggleLike}
+                >
+                  <img
+                    src={isLiked ? iconHeartFill : iconHeartLine}
+                    alt="찜하기"
+                    className="w-full h-full"
+                  />
+                </button>
+              </div>
             )}
             <div className="flex flex-1 flex-col">
               <div className="flex items-center justify-between mb-4">

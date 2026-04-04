@@ -5,7 +5,7 @@ import type {
 } from "../types/rectangleButton";
 
 export const sizeStyles: Record<RectangleButtonSize, string> = {
-  small: "px-[10px] py-[5px] text-body-md rounded-[8px]",
+  small: "w-[72px] h-[35px] text-body-md rounded-[8px]",
   medium: "h-[48px] px-[20px] text-caption-md rounded-[8px]",
   large: "h-[56px] px-[28px] text-title-sm rounded-[8px]",
 };

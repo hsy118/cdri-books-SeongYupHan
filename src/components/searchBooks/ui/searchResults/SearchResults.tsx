@@ -1,16 +1,20 @@
 import { useEffect, useRef } from "react";
 import { useSearchBooksQuery } from "../../queries/useSearchBooksQuery";
-import type { KakaoBookSearchResponse } from "../../types/searchBooks";
+import type {
+  BookSearchParams,
+  KakaoBookSearchResponse,
+} from "../../types/searchBooks";
 import SearchedBooks from "./SearchedBooks";
 import SearchResultHeader from "./SearchResultHeader";
 
 interface Props {
   keyword: string;
+  target?: BookSearchParams["target"];
 }
 
-function SearchResults({ keyword }: Props) {
+function SearchResults({ keyword, target }: Props) {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useSearchBooksQuery(keyword);
+    useSearchBooksQuery(keyword, target);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,12 +35,14 @@ function SearchResults({ keyword }: Props) {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const totalCount = data?.pages[0].meta.total_count ?? 0;
-  const allDocuments = data?.pages.flatMap((page: KakaoBookSearchResponse) => page.documents) ?? [];
+  const allDocuments =
+    data?.pages.flatMap((page: KakaoBookSearchResponse) => page.documents) ??
+    [];
   const isFetching = isLoading || isFetchingNextPage;
 
   return (
     <section className="mt-7">
-      <SearchResultHeader totalCount={totalCount} />
+      <SearchResultHeader totalCount={totalCount} className="mb-[120px]" />
       <SearchedBooks
         books={allDocuments}
         sentinelRef={sentinelRef}

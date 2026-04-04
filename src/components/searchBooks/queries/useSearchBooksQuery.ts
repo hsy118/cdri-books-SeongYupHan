@@ -1,19 +1,26 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useFetchHandler from "@/components/common/hooks/useFetchHandler";
-import type { KakaoBookSearchResponse } from "../types/searchBooks";
+import type {
+  BookSearchParams,
+  KakaoBookSearchResponse,
+} from "../types/searchBooks";
 import { SEARCH_SIZE } from "../constant/searchBooks";
 
-export function useSearchBooksQuery(keyword: string) {
+export function useSearchBooksQuery(
+  keyword: string,
+  target?: BookSearchParams["target"],
+) {
   const { fetchHandler } = useFetchHandler();
 
   return useInfiniteQuery({
-    queryKey: ["searchBooks", keyword],
+    queryKey: ["searchBooks", keyword, target],
     queryFn: ({ pageParam }) =>
       fetchHandler<KakaoBookSearchResponse>("/search/book", {
         query: keyword,
         sort: "accuracy",
         size: SEARCH_SIZE,
         page: pageParam,
+        ...(target && { target }),
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, _allPages, lastPageParam) =>

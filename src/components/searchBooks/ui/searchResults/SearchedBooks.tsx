@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 import type { KakaoBookDocument } from "../../types/searchBooks";
-import BookCard from "./BookCard";
-import NoSearchedBooks from "./NoSearchedBooks";
+import BookCard from "@/components/shared/ui/BookCard";
+import EmptyResult from "@/components/shared/ui/EmptyResult";
 
 interface Props {
   books: KakaoBookDocument[];
@@ -10,12 +10,7 @@ interface Props {
   isFetching: boolean;
 }
 
-function SearchedBooks({
-  books,
-  sentinelRef,
-  hasNextPage,
-  isFetching,
-}: Props) {
+function SearchedBooks({ books, sentinelRef, hasNextPage, isFetching }: Props) {
   if (books.length > 0) {
     return (
       <>
@@ -25,9 +20,7 @@ function SearchedBooks({
           ))}
         </ul>
         {hasNextPage && <div ref={sentinelRef} />}
-        {isFetching && (
-          <p className="text-caption-md py-2">불러오는 중...</p>
-        )}
+        {isFetching && <p className="text-caption-md py-2">불러오는 중...</p>}
       </>
     );
   }
@@ -36,7 +29,7 @@ function SearchedBooks({
     return <p className="text-caption-md py-2">불러오는 중...</p>;
   }
 
-  return <NoSearchedBooks />;
+  return <EmptyResult message="검색된 결과가 없습니다." />;
 }
 
 export default SearchedBooks;
