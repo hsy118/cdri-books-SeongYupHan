@@ -5,6 +5,9 @@
 
 ## 프로젝트 개요
 
+![Node.js](https://img.shields.io/badge/Node.js-24.12.0-339933?logo=node.js&logoColor=white)
+![Yarn](https://img.shields.io/badge/Yarn-1.22.22-2C8EBB?logo=yarn&logoColor=white)
+
 - 도서 검색과 상세 검색을 통해 원하는 책을 찾을 수 있습니다.
 - 검색 기록을 브라우저에 저장해 다시 빠르게 조회할 수 있습니다.
 - 검색 결과에서 책을 찜하고, 별도 화면에서 모아볼 수 있습니다.
