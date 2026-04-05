@@ -58,12 +58,6 @@ yarn test:watch
 │  ├─ components/
 │  │  ├─ appBar/
 │  │  ├─ common/
-│  │  │  ├─ atoms/
-│  │  │  ├─ constant/
-│  │  │  ├─ hooks/
-│  │  │  ├─ molecules/
-│  │  │  ├─ types/
-│  │  │  └─ utils/
 │  │  ├─ myfavorites/
 │  │  ├─ searchBooks/
 │  │  ├─ shared/
