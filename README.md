@@ -1,6 +1,6 @@
 # CDRI Books
 
-카카오 도서 검색 API를 기반으로 책을 검색하고, 검색 기록과 찜 목록을 함께 관리할 수 있는 React 애플리케이션입니다.  
+카카오 도서 검색 API를 기반으로 책을 검색하고, 검색 기록과 찜 목록을 함께 관리할 수 있는 React 애플리케이션입니다.
 검색 화면과 찜 화면을 분리하고, 공용 카드 UI와 통합 `테스트`를 통해 주요 사용자 흐름이 안정적으로 동작하도록 구성했습니다.
 
 ## 프로젝트 개요
@@ -10,9 +10,8 @@
 - 검색 결과에서 책을 찜하고, 별도 화면에서 모아볼 수 있습니다.
 - 잘못된 경로로 접근하면 기본 검색 화면으로 리다이렉트됩니다.
 
-## 프로젝트 진행 일시
-- 2026-04-04 ~ 2026-04-06
-
+### 프로젝트 진행 일시
+- 2026-04-04 ~ 2026-0-06
 
 ## 주요 기능
 
@@ -30,10 +29,9 @@
 yarn install
 ```
 
-`.env` 파일에 아래 환경 변수가 필요합니다.
-
+어플리케이션은 로컬 호스트로 실행합니다.
 ```bash
-VITE_REST_API_KEY=YOUR_KAKAO_REST_API_KEY
+yarn dev
 ```
 
 주요 실행 명령어:
@@ -45,13 +43,49 @@ yarn lint
 yarn test
 yarn test:watch
 ```
+** .env 파일은 이메일에 함께 첨부하여, `git clone`시 최상위 경로에 위치시켜야 합니다. **
 
 ## 폴더 구조 및 주요 코드 설명
 
+```text
+.
+├─ public/
+├─ src/
+│  ├─ apis/
+│  ├─ assets/
+│  │  ├─ icons/
+│  │  └─ images/
+│  ├─ components/
+│  │  ├─ appBar/
+│  │  ├─ common/
+│  │  │  ├─ atoms/
+│  │  │  ├─ constant/
+│  │  │  ├─ hooks/
+│  │  │  ├─ molecules/
+│  │  │  ├─ types/
+│  │  │  └─ utils/
+│  │  ├─ myfavorites/
+│  │  ├─ searchBooks/
+│  │  ├─ shared/
+│  │  └─ ui/
+│  ├─ lib/
+│  ├─ routes/
+│  ├─ styles/
+│  ├─ test/
+│  ├─ App.tsx
+│  └─ main.tsx
+├─ .env
+├─ package.json
+├─ vite.config.ts
+└─ vitest.config.ts
+```
+
+- 아키텍처 패턴
+  - 관련 컴포넌트들을 기능 단위로 묶고, 그 내부에 `hooks`, `types`, `utils`, `constant` 등을 함께 배치하는 feature-based 구조를 사용했습니다.
+- `src/components/common` : 확장성을 고려했을 때 앱 전반에서 재사용할 수 있는 공통 요소를 둡니다. `atoms`, `molecules`에는 버튼, 입력창, 다이얼로그처럼 UI 관련 공통 컴포넌트를 두고, 그 외 `hooks`, `utils`, `types`, `constant`는 공통 로직과 설정을 관리합니다.
 - `src/components/searchBooks` : 검색 화면, 상세 검색, 검색 결과 렌더링을 담당합니다.
 - `src/components/myfavorites` : 찜한 책 목록 조회와 해제를 담당합니다.
 - `src/components/shared` : 최소 두 곳 이상의 화면이나 기능에서 함께 사용하는 UI와 타입을 둡니다. 예를 들어 `src/components/shared/ui/bookCard`는 검색 결과와 찜 목록에서 함께 사용하는 도서 카드 UI입니다.
-- `src/components/common` : 확장성을 고려했을 때 앱 전반에서 재사용할 수 있는 공통 요소를 둡니다. `atoms`, `molecules`에는 버튼, 입력창, 다이얼로그처럼 UI 관련 공통 컴포넌트를 두고, 그 외 `hooks`, `utils`, `types`, `constant`는 공통 로직과 설정을 관리합니다.
 - `src/routes` : 라우팅과 기본 경로 리다이렉트를 관리합니다.
 - `src/lib` : 특정 도메인에 강하게 묶이지 않는 보조 유틸리티나 스타일 계산 로직을 둡니다.
 - `src/test` : 통합 테스트 유틸, MSW 핸들러, 테스트 환경 설정을 포함합니다.
